@@ -1,0 +1,4 @@
+BULL_COLOR = '8bc34a'
+BEAR_COLOR = 'd32f2f'
+ARROW_UP_SVG = f'<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="3em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="#{BULL_COLOR}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 7l7-7l7 7"/></svg>'
+ARROW_DOWN_SVG = f'<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="60px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="#{BEAR_COLOR}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 9l7 7l7-7"/></svg>'
