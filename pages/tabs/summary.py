@@ -1,6 +1,17 @@
+from enum import auto
+from turtle import width
 import streamlit as st
 from constants import BULL_COLOR, BEAR_COLOR, ARROW_UP_SVG, ARROW_DOWN_SVG
 import plotly.graph_objects as go
+
+def span(content, style_dict: dict=None):
+    style_options = ""
+    if style_dict is not None:
+        style_options = "; ".join([f'{k}: {v}' for k, v in style_dict.items()])
+
+    print(f'<span style="{style_options}">{content}</span>')
+
+    return f'<span style="{style_options}">{content}</span>'
 
 
 def load_summary_tab_content(data):
@@ -13,12 +24,43 @@ def load_summary_tab_content(data):
     font_color = BEAR_COLOR if change < 0 else BULL_COLOR
 
     with col1:
-        st.markdown(f'<span style="font-size: 4em; font-weight: bolder; color: #{font_color}">{latest_record["close"]}</span><span style="padding-bottom: 20px">{ARROW_UP_SVG if change > 0 else ARROW_DOWN_SVG}</span>', unsafe_allow_html=True)
-        st.markdown(f'<span style="font-size: 1.5em; margin-right: 2%; color: #{font_color}">{change}</span> <span style="font-size: 1.5em; color: #{font_color}">({pct_change}%)</span>', unsafe_allow_html=True)
+        st.markdown(
+            span(
+                latest_record["close"], 
+                {
+                    "font-size": "4em",
+                    "font_weight": "bolder",
+                    "color": font_color,
+                }
+            ) + span(
+                ARROW_UP_SVG if change > 0 else ARROW_DOWN_SVG,
+                {
+                    "padding-bottom": "20px"
+                }
+            ),
+            unsafe_allow_html=True
+        )
+        st.markdown(
+            span(
+                change, 
+                {
+                    "font-size": "1.5em",
+                    "color": font_color,
+                    "margin-right": "2%"
+                }
+            ) + span(
+                f'({pct_change}%)',
+                {
+                    "font-size": "1.5em",
+                    "color": font_color
+                }
+            ),
+            unsafe_allow_html=True
+        )
 
     with col2:
         for i in ["open", "high", "low", "close"]:
-            st.text(f"{i.capitalize()}: {latest_record[i]}")
+            st.text("{0}: {1:0.2f}".format(i.capitalize(), round(latest_record[i], 2)))
 
     last_90_days_data = data.iloc[-90:, :]
 
@@ -29,11 +71,11 @@ def load_summary_tab_content(data):
                             close=last_90_days_data['close'])
                     )
 
-    fig.update_layout(xaxis_rangeslider_visible=False, title="90 day Movement", margin=dict(l=0, r=0, t=0, b=0))
+    fig.update_layout(xaxis_rangeslider_visible=False, margin=dict(l=0, r=0, b=0, t=0), autosize=True)
     fig.update_traces(line = dict(width=1))
     fig.update_xaxes(showgrid=False)
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
 
     expander = st.expander('Show Data')
 
