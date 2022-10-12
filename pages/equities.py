@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
-from load_data import DataLoader
+from utils.load_data import DataLoader
 from pages.tabs.summary import load_summary_tab_content
 from pages.tabs.technicals import load_technicals_tab_content
 

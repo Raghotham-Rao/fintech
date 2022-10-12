@@ -1,7 +1,7 @@
 from enum import auto
 from turtle import width
 import streamlit as st
-from constants import BULL_COLOR, BEAR_COLOR, ARROW_UP_SVG, ARROW_DOWN_SVG
+from utils.constants import BULL_COLOR, BEAR_COLOR, ARROW_UP_SVG, ARROW_DOWN_SVG
 import plotly.graph_objects as go
 
 def span(content, style_dict: dict=None):

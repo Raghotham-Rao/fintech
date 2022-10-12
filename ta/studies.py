@@ -29,3 +29,48 @@ def load_rsi(df):
     df['loss_avg'] = df['loss_pts'].ewm(alpha=1/14, adjust=True, min_periods=14).mean()
     df['rsi'] = 100 - (100 / (1 + df['gain_avg'] / df['loss_avg']))
     return df
+
+def load_ATR(df):
+    df['true_range'] = np.maximum.reduce([
+        df['high'] - df['low'], 
+        (df['high'] - df['prev_close']).abs(), 
+        (df['low'] - df['prev_close']).abs()
+    ])
+    df['ATR'] = df['true_range'].ewm(alpha=1/14).mean()
+    return df
+
+def load_ADX(df, period):
+    df["plus_DM"] = df['high'].diff(1)
+    df["minus_DM"] = -df['low'].diff(1)
+    df['plus_DX'] = np.where(
+        np.logical_and(
+            df['plus_DM'] > df["minus_DM"],
+            df['plus_DM'] > 0
+        ), df["plus_DM"], 0)
+    df['minus_DX'] = np.where(
+        np.logical_and(
+            df['minus_DM'] > df["plus_DM"],
+            df['minus_DM'] > 0
+        ), df["minus_DM"], 0)
+    
+    df['smooth_DXp'] = df["plus_DX"].ewm(alpha=1/period).mean()
+    df['smooth_DXm'] = df["minus_DX"].ewm(alpha=1/period).mean()
+    
+    df['plus_DI'] = df["smooth_DXp"] * 100 / df["ATR"]
+    df['minus_DI'] = df["smooth_DXm"] * 100 / df['ATR']
+    
+    df['DX'] = ((df['plus_DI'] - df['minus_DI']).abs() * 100 / (df['plus_DI'] + df['minus_DI'])).abs()
+    df['ADX'] = df['DX'].ewm(alpha=1/period).mean()
+    
+    return df
+
+def load_aroon(df, period):
+    """using argmax"""
+    df["period"] = period
+    df["days_since_period_high"] = df["high"].rolling(window=period).apply(lambda x: period - np.argmax(x) - 1)
+    df["days_since_period_low"] = df["low"].rolling(window=period).apply(lambda x: period - np.argmin(x) - 1)
+    
+    df["aroon_up"] = (period - df["days_since_period_high"]) * 100 / period
+    df["aroon_down"] = (period - df["days_since_period_low"]) * 100 / period
+    
+    return df

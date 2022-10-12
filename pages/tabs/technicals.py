@@ -1,6 +1,6 @@
 from turtle import colormode, fillcolor
 import streamlit as st
-from constants import BULL_COLOR, BEAR_COLOR, ARROW_UP_SVG, ARROW_DOWN_SVG
+from utils.constants import BULL_COLOR, BEAR_COLOR, ARROW_UP_SVG, ARROW_DOWN_SVG
 import plotly.graph_objects as go
 import ta.single_candlestick_patterns as scp
 import ta.multiple_candlestick_patterns as mcp

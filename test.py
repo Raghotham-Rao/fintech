@@ -1,4 +1,4 @@
-from load_data import DataLoader
+from utils.load_data import DataLoader
 from datetime import datetime, timedelta
 
 script_name = 'INFY'

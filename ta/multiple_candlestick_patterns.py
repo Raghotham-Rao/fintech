@@ -43,10 +43,10 @@ def identify_piercing_or_dark_clouds(df):
         ]),
         np.where(
             (df["candle_color"] == "green") & (df['close'] >= (df['prev_open'] + df['prev_close']) / 2), 
-            "Piercing Pattern",
+            "Bullish Piercing Pattern",
             np.where(
                 (df["candle_color"] == "red") & (df['close'] <= (df['prev_open'] + df['prev_close']) / 2),
-                "Dark Cloud Cover",
+                "Bearish Dark Cloud Cover",
                 None
             )
         ),

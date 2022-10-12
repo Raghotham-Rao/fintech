@@ -1,4 +1,5 @@
 from nsepython import equity_history
+import yfinance as yf
 
 
 class DataLoader:
@@ -11,3 +12,13 @@ class DataLoader:
         df = df[DataLoader.req_columns]
         df.columns = DataLoader.new_column_names
         return df
+
+class YfinanceDataLoader:
+
+    @staticmethod
+    def get_current_data(script_name):
+        return yf.Ticker(script_name).history(period="1d", interval="5m")
+
+    @staticmethod
+    def get_prev_day_data(script_name):
+        return yf.Ticker(script_name).history(period="5d")
