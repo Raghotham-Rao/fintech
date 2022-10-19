@@ -1,5 +1,4 @@
 from enum import auto
-from turtle import width
 import streamlit as st
 from utils.constants import BULL_COLOR, BEAR_COLOR, ARROW_UP_SVG, ARROW_DOWN_SVG
 import plotly.graph_objects as go
@@ -26,7 +25,7 @@ def load_summary_tab_content(data):
     with col1:
         st.markdown(
             span(
-                latest_record["close"], 
+                round(latest_record["close"], 2), 
                 {
                     "font-size": "4em",
                     "font_weight": "bolder",

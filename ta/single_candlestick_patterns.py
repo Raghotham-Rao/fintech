@@ -11,21 +11,12 @@ def pre_process(df):
 
 def identify_marubozus(df):
     df['marubozu'] = np.where(
-        np.logical_and.reduce(
-            [df['candle_color'] == 'green', 
+        np.logical_and.reduce([
              df['candle_body_ratio'] > 0.85, 
-             df['pct_change'].abs() > 0.5]
-        ),
-        "Bullish",
-        np.where(
-            np.logical_and.reduce(
-                [df['candle_color'] == 'red', 
-                 df['candle_body_ratio'] > 0.85, 
-                 df['pct_change'].abs() > 0.5]
-            ),
-            "Bearish",
-            None
-        )
+             df['pct_change'].abs() > 0.5
+        ]),
+        df["candle_color"].replace({"green": "Bullish", "red": "Bearish"}),
+        None
     )
     return df
 
