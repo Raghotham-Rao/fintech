@@ -1,4 +1,4 @@
-from turtle import colormode, fillcolor
+
 import streamlit as st
 from utils.constants import BULL_COLOR, BEAR_COLOR, ARROW_UP_SVG, ARROW_DOWN_SVG
 import plotly.graph_objects as go
