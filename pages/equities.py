@@ -12,8 +12,6 @@ def span(content, style_dict: dict=None):
     if style_dict is not None:
         style_options = "; ".join([f'{k}: {v}' for k, v in style_dict.items()])
 
-    print(f'<span style="{style_options}">{content}</span>')
-
     return f'<span style="{style_options}">{content}</span>'
 
 

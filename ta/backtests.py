@@ -21,7 +21,8 @@ def get_returns(df):
 
 
 def show_performance(df, indicator_column):
-    col_set = [indicator_column] + ['symbol', 'next_day_open', 'ADX', 'plus_DI', 'minus_DI'] 
+    col_set = [indicator_column] + ['symbol', 'next_day_open', 'ADX', 'plus_DI', 'minus_DI', 
+                                    'rsi', 'rsi_bin', 'bb_upper', 'bb_lower']
     col_set += [i for i in df.columns if '_return_pct' in i or '_flag' in i] + [f'd{i}_indicator_conf' for i in [2, 3, 5, 8, 13]]
 
     for i in [2, 3, 5, 8, 13]:
@@ -34,3 +35,12 @@ def show_performance(df, indicator_column):
         )
     
     return df[df[indicator_column].notna()][col_set]
+
+def get_rsi_details(df):
+    return df[np.where(
+        np.logical_or.reduce([
+            (df[f"d{i}_win_flag"] == True) for i in [2, 3, 5, 8, 13]
+        ]),
+        True,
+        False
+    )].groupby("rsi_bin").agg({"rsi_bin": "count"})

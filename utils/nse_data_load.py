@@ -3,8 +3,14 @@ import pandas as pd
 import json
 from datetime import datetime, timedelta
 
+REQUEST_HEADERS = {
+    "user-agent": "Custom"
+}
+
 
 class NSEDataLoader:
+    base_url = 'https://www.nseindia.com/api/historical/cm/equity'
+
     headers = {
         "user-agent": "Custom",
     }
@@ -46,4 +52,10 @@ class NSEDataLoader:
     def load_last_x_days_data(x):
         ...
 
-base_url = 'https://www.nseindia.com/api/historical/cm/equity'
+
+def get_indices_info():
+    url = 'https://www.nseindia.com/api/allIndices'
+    required_fields = ['key', 'index', 'indexSymbol', 'open', 'high', 'low', 'last', 'previousClose', 'oneWeekAgo', 'oneMonthAgo']
+    indices_df = pd.DataFrame(requests.get(url, headers=REQUEST_HEADERS).json()["data"])
+    indices_df = indices_df[indices_df['key'].isin(['BROAD MARKET INDICES', 'SECTORAL INDICES'])][required_fields]
+    return indices_df
