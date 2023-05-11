@@ -50,7 +50,10 @@ def get_historical_data(script_name:str, from_date:str = None, to_date:str = Non
     return df[column_order]
 
 def get_current_price(script_name:str, exchg:str='NS'):
-    url = f'{BASE_URL}{script_name.upper()}.{exchg.upper()}'
+    if exchg is None:
+        url = f'{BASE_URL}{script_name.upper()}'
+    else:
+        url = f'{BASE_URL}{script_name.upper()}.{exchg.upper()}'
     query_params = QUERY_PARAMS
     resp = requests.get(url, headers=REQUEST_HEADERS, params=query_params)
     resp_dict = resp.json()['chart']['result'][0]['meta']
