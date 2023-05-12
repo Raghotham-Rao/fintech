@@ -38,6 +38,6 @@ with oi_tab:
     st.markdown(f'<h6>Underlying: {symbol} @ {span(current_price, color=font_color)}{ARROW_UP_SMALL_SVG if change > 0 else ARROW_DOWN_SMALL_SVG}({span(change, color=font_color)}, {span(str(pct_change) + "%", color=font_color)})</h6>', unsafe_allow_html=True)
     show_open_interest(option_chain_df)
 
-with compare_tab:
-    st.markdown(f'<h6>Underlying: {symbol} @ {span(current_price, color=font_color)}{ARROW_UP_SMALL_SVG if change > 0 else ARROW_DOWN_SMALL_SVG}({span(change, color=font_color)}, {span(str(pct_change) + "%", color=font_color)})</h6>', unsafe_allow_html=True)
-    show_options_compare_ui()
+# with compare_tab:
+#     st.markdown(f'<h6>Underlying: {symbol} @ {span(current_price, color=font_color)}{ARROW_UP_SMALL_SVG if change > 0 else ARROW_DOWN_SMALL_SVG}({span(change, color=font_color)}, {span(str(pct_change) + "%", color=font_color)})</h6>', unsafe_allow_html=True)
+#     show_options_compare_ui()
