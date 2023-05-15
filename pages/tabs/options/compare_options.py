@@ -71,6 +71,5 @@ def show_options_compare_ui():
         comparision_table.update_layout(margin=dict(t=0,b=0,l=0,r=0), height=600)
 
         st.plotly_chart(comparision_table, use_container_width=True)
-        # st.dataframe(comparision_df.set_index("strike"))
     except Exception as e:
         st.error(e)

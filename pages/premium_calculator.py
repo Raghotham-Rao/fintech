@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from utils.components import span
 from utils.yahoo_data_load import get_current_price
+import plotly.express as px
 
 
 script_names = {
@@ -94,6 +95,28 @@ try:
     comparision_table.update_layout(margin=dict(t=0,b=0,l=0,r=0), height=600)
 
     st.plotly_chart(comparision_table, use_container_width=True)
-    # st.dataframe(comparision_df.set_index("strike"))
+
+    line_chart_columns = st.columns(2)
+    
+    line_chart_columns[0].plotly_chart(
+        px.line(
+            comparision_df, 
+            x="strike", 
+            y=["premium_call", "premium_put"], 
+            title=f"{strike_price_1}-{option_type_1} v/s {strike_price_2}-{option_type_2}"
+        ).update_layout(height=500, showlegend=False, title=dict(font=dict(size=20), x=0.115)),
+        use_container_width=True
+    )
+
+    line_chart_columns[1].plotly_chart(
+        px.line(
+            comparision_df, 
+            x="strike", 
+            y="net_pl", 
+            title=f"PL chart",
+            color_discrete_sequence=['#8bc34a']
+        ).update_layout(height=500, title=dict(font=dict(size=20), x=0.115)),
+        use_container_width=True,
+    )
 except Exception as e:
     st.error(e)
