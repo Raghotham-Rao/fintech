@@ -7,6 +7,16 @@ import plotly.graph_objects as go
 from utils.components import span
 from utils.yahoo_data_load import get_current_price
 import plotly.express as px
+import io
+
+
+def download_data(df: pd.DataFrame):
+    output = io.BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name="Sheet_1", index=False)
+    writer.save()
+    output.seek(0)
+    return output
 
 
 script_names = {
@@ -94,7 +104,9 @@ try:
 
     comparision_table.update_layout(margin=dict(t=0,b=0,l=0,r=0), height=600)
 
+    st.markdown('---')
     st.plotly_chart(comparision_table, use_container_width=True)
+    st.download_button("Download", download_data(comparision_df), file_name="compare_options.xlsx", mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
     line_chart_columns = st.columns(2)
     

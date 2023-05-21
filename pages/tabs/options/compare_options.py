@@ -2,7 +2,6 @@ import streamlit as st
 from utils.black_and_scholes import show_premiums
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 import numpy as np
 
 
@@ -53,8 +52,8 @@ def show_options_compare_ui():
 
         format_text = lambda x: f'<b>{"+" if x >= 0 else ""}{x}</b>'
         font_color_map = np.full(comparision_df.shape, "#000000")
-        font_color_map[:, -3] = comparision_df["net_pl"].apply(lambda x: 'red' if x < 0 else 'green')
-        font_color_map[:, -1] = comparision_df["net_pl"].apply(lambda x: 'red' if x < 0 else 'green')
+        font_color_map[:, -3] = comparision_df["net_pl"].apply(lambda x: '#b71c1c' if x < 0 else '#7cb342')
+        font_color_map[:, -1] = comparision_df["net_pl"].apply(lambda x: '#b71c1c' if x < 0 else '#7cb342')
 
         comparision_table = go.Figure(
             data=go.Table(

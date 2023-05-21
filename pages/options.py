@@ -20,7 +20,7 @@ header_cols = st.columns([3, 1])
 header_cols[0].header('Options')
 symbol = header_cols[1].selectbox("Symbol", ['NIFTY', 'BANKNIFTY', 'FINNIFTY'])
 
-option_chain_tab, oi_tab, compare_tab = st.tabs(['Option Chain', 'Open Interest', 'Compare options'])
+option_chain_tab, oi_tab = st.tabs(['Option Chain', 'Open Interest'])
 
 current_price_data = get_current_price(script_names[symbol], None)
 current_price = round(current_price_data["regularMarketPrice"], 2)
@@ -37,7 +37,3 @@ with option_chain_tab:
 with oi_tab:
     st.markdown(f'<h6>Underlying: {symbol} @ {span(current_price, color=font_color)}{ARROW_UP_SMALL_SVG if change > 0 else ARROW_DOWN_SMALL_SVG}({span(change, color=font_color)}, {span(str(pct_change) + "%", color=font_color)})</h6>', unsafe_allow_html=True)
     show_open_interest(option_chain_df)
-
-# with compare_tab:
-#     st.markdown(f'<h6>Underlying: {symbol} @ {span(current_price, color=font_color)}{ARROW_UP_SMALL_SVG if change > 0 else ARROW_DOWN_SMALL_SVG}({span(change, color=font_color)}, {span(str(pct_change) + "%", color=font_color)})</h6>', unsafe_allow_html=True)
-#     show_options_compare_ui()
